@@ -1,0 +1,46 @@
+CC ?= gcc
+
+APP_NAME_PIPE_SIMPLE = pipe_simple
+OBJ_FILES_PIPE_SIMPLE = pipe_simple.o
+
+APP_NAME_PIPE_PROCESS = pipe_process
+OBJ_FILES_PIPE_PROCESS = pipe_process.o
+
+APP_NAME_FIFO_PROCESS = fifo_process
+OBJ_FILES_FIFO_PROCESS = fifo_process.o
+
+APP_NAME_FIFO_PROCESS_WRITE = fifo_process_write
+OBJ_FILES_FIFO_PROCESS_WRITE = fifo_process_write.o
+
+LIBS = .
+
+all: $(APP_NAME_PIPE_SIMPLE) $(APP_NAME_PIPE_PROCESS) $(APP_NAME_FIFO_PROCESS) $(APP_NAME_FIFO_PROCESS_WRITE)
+
+$APP_NAME_PIPE_SIMPLE : $(OBJ_FILES_PIPE_SIMPLE)
+	$(CC) -O $@ $^ -L$(LIBS)
+
+$APP_NAME_PIPE_PROCESS : $(OBJ_FILES_PIPE_PROCESS)
+	$(CC) -O $@ $^ -L$(LIBS)
+
+$APP_NAME_FIFO_PROCESS_WRITE : $(OBJ_FILES_FIFO_PROCESS_WRITE)
+	$(CC) -O $@ $^ -L$(LIBS)
+
+$APP_NAME_FIFO_PROCESS : $(OBJ_FILES_FIFO_PROCESS)
+	$(CC) -O $@ $^ -L$(LIBS)
+
+
+
+%.o: %.c
+	$(CC) -o $@ -c $^ -g
+
+clean:
+	rm *.o $(APP_NAME_PIPE_SIMPLE)
+	rm *.o $(APP_NAME_PIPE_PROCESS)
+	rm *.o $(APP_NAME_FIFO_PROCESS)
+	rm *.o $(APP_NAME_FIFO_PROCESS_WRITE)
+
+
+
+fresh:
+	make clean
+	make all
